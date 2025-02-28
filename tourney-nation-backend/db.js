@@ -1,12 +1,19 @@
-const mongoose = require("mongoose");
-require('dotenv').config(); // Load environment variables from .env file
-mongoose.connect(process.env.MONGODB_URI, {
+const mongoose = require('mongoose');
+
+const config = require('../config');
+
+const dbUrl = config.dbUrlMongoDB;
+
+mongoose.connect(
+  dbUrl,
+  {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connection to MongoDB successful");
-  })
-  .catch((error) => {
-    console.log("Error connecting to MongoDB:", error);
-  });
+  }, // To avoid deprecated options
+  (err) => {
+    if (err) console.log('Error', err);
+    else console.log('Mongodb connected');
+  }
+);
+
+module.exports = mongoose;
