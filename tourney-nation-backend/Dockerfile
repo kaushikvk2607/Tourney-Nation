@@ -1,4 +1,4 @@
-# Use the official Node.js image as the base image
+# Use the official Node.js image
 FROM node:18
 
 # Set the working directory inside the container
@@ -7,14 +7,16 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install --production
+# Install dependencies (ensure dotenv is included)
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
 
-# Expose the application port
-EXPOSE 3000
+# Expose correct port dynamically
+ARG PORT=5000
+ENV PORT=$PORT
+EXPOSE $PORT
 
 # Define the command to run the application
 CMD ["node", "index.js"]
